@@ -1,0 +1,9 @@
+@import url(./tailwind.scss);
+
+* {
+    outline: none !important;
+}
+
+a.stilyzed {
+    color: theme('colors.blue.400');
+}
