@@ -23,3 +23,10 @@ Route::middleware('guest')->group(function () {
         Route::post('/', [App\Http\Controllers\Auth\RegisterController::class, 'store'])->name('store');
     });
 });
+
+
+Route::middleware('auth')->group(function () {
+    Route::prefix('/login')->name('login.')->group(function () {
+        Route::delete('/login', [App\Http\Controllers\Auth\LoginController::class, 'destroy'])->name('destroy');
+    });
+});

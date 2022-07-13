@@ -65,21 +65,23 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $e)
     {
-        if (!$request->expectsJson()) return parent::render($request, $e);
+        if ($request->expectsJson()) {
+            if ($e instanceof NotFoundHttpException) return NotFoundHttpResource::make();
+            if ($e instanceof MethodNotAllowedHttpException) return MethodNotAllowedHttpResource::make();
+            if ($e instanceof ModelNotFoundException) return ModelNotFoundResource::make($e->getModel())->asResponse();
+            if ($e instanceof NoApiTokenProvidedException) return NoApiTokenProvidedResource::make();
+            if ($e instanceof RecordDoesntExistException) return RecordDoesntExistResource::make();
+            if ($e instanceof LoginIncorrectException || $e instanceof PasswordIncorrectException) return LoginFailedResource::make();
+            if ($e instanceof AuthorizationException) return UnauthorizedResource::make();
+            if ($e instanceof TokenExpiredException) return TokenExpiredResource::make();
+            if ($e instanceof ValidationException) return ValidationFailedResource::make(
+                // returns errors as string instead of array
+                Collection::make($e->errors())->map(function ($i) {
+                    return join(', ', $i);
+                })
+            );
+        }
 
-        if ($e instanceof NotFoundHttpException) return NotFoundHttpResource::make();
-        elseif ($e instanceof MethodNotAllowedHttpException) return MethodNotAllowedHttpResource::make();
-        elseif ($e instanceof ModelNotFoundException) return ModelNotFoundResource::make($e->getModel())->asResponse();
-        elseif ($e instanceof NoApiTokenProvidedException) return NoApiTokenProvidedResource::make();
-        elseif ($e instanceof RecordDoesntExistException) return RecordDoesntExistResource::make();
-        elseif ($e instanceof LoginIncorrectException || $e instanceof PasswordIncorrectException) return LoginFailedResource::make();
-        elseif ($e instanceof AuthorizationException) return UnauthorizedResource::make();
-        elseif ($e instanceof TokenExpiredException) return TokenExpiredResource::make();
-        elseif ($e instanceof ValidationException) return ValidationFailedResource::make(
-            // returns errors as string instead of array
-            Collection::make($e->errors())->map(function ($i) {
-                return join(', ', $i);
-            })
-        );
+        return parent::render($request, $e);
     }
 }

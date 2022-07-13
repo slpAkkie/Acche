@@ -16,7 +16,7 @@ class RegisterRequest extends Request
         return [
             'nickname'  => 'required|unique:users,nickname',
             'name'      => 'required',
-            'email'     => 'required|email',
+            'email'     => 'required|email|unique:users,email',
             'password'  => 'required|confirmed',
         ];
     }

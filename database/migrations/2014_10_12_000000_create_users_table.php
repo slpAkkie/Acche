@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('nickname', 32)->primary();
             $table->string('name', 64);
             $table->string('email', 64)->unique();
-            $table->string('salt', 32);
-            $table->string('password_hash', 60);
+            $table->string('password', 60);
+            $table->rememberToken();
             $table->timestamps();
         });
     }
