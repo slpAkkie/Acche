@@ -1,7 +1,7 @@
 <template>
     <Head title="Login" />
 
-    <MinimalLayout>
+    <GuestLayout>
         <div class="container max-w-xl mx-auto">
             <form
                 :action="route('login.store')"
@@ -53,12 +53,12 @@
                 </div>
             </form>
         </div>
-    </MinimalLayout>
+    </GuestLayout>
 </template>
 
 <script>
 import { Head, Link } from "@inertiajs/inertia-vue3";
-import MinimalLayout from "@/Layouts/Minimal.vue";
+import GuestLayout from "@/Layouts/Guest.vue";
 import TwInput from "@/Components/FormControls/TwInput.vue";
 import TwButton from "@/Components/FormControls/TwButton.vue";
 import TwCheckbox from "@/Components/FormControls/TwCheckbox.vue";
@@ -68,7 +68,7 @@ export default {
     components: {
         Head,
         Link,
-        MinimalLayout,
+        GuestLayout,
         TwInput,
         TwCheckbox,
         TwButton,

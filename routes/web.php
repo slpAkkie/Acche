@@ -15,6 +15,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
     Route::inertia('/', 'Home')->name('home');
+
+    // Routes for User
+    Route::prefix('/user')->name('user.')->group(function () {
+        // Routes for User Settings
+        Route::name('settings.')->group(function () {
+            Route::inertia('/settings', 'User/Settings')->name('create');
+            Route::post('/settings', [App\Http\Controllers\User\SettingsController::class, 'store'])->name('store');
+        });
+    });
 });
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'auth.php';

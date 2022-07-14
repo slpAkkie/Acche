@@ -4,6 +4,20 @@
     outline: none !important;
 }
 
-a.stilyzed {
-    color: theme('colors.blue.400');
+a {
+    color: theme('colors.white');
+
+    transition: color .15s ease;
+
+    &:hover {
+        color: theme('colors.blue.300');
+    }
+
+    &.stilyzed {
+        color: theme('colors.blue.400');
+
+        &:hover {
+            color: theme('colors.blue.500');
+        }
+    }
 }

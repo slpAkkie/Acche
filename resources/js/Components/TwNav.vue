@@ -4,31 +4,57 @@
             <a :href="route('home')" class="unstyled">Acche</a>
         </h1>
 
-        <TwButton value="Выйти" @click="requestLogout" />
+        <DropdownMenu
+            v-if="canLogout"
+            text="Мой аккаунт"
+            :elements="dropdownElements"
+            :circle="true"
+        />
     </nav>
 </template>
 
 <script>
 import TwButton from "@/Components/FormControls/TwButton.vue";
-import axios from "axios";
+import DropdownMenu from "@/Components/Dropdown.vue";
 
 export default {
     name: "TwNav",
-    components: {
-        TwButton,
-    },
-    methods: {
-        requestLogout() {
-            axios
-                .delete(route("login.destroy"))
-                .then((httpResponse) => {
-                    location.href = route("home");
-                })
-                .catch((httpResponse) => {
-                    console.log(httpResponse.response);
-                });
+    props: {
+        canLogout: {
+            type: Boolean,
+            default: false,
         },
     },
+    components: {
+        TwButton,
+        DropdownMenu,
+    },
+    data: () => ({
+        dropdownElements: [
+            { type: "link", slot: "Мои чаты", href: route("home") },
+            {
+                type: "link",
+                slot: "Настройки аккаунта",
+                href: route("user.settings.create"),
+            },
+            { type: "separator" },
+            {
+                type: "link",
+                slot: "Выход",
+                href: route("login.destroy"),
+                click: ({ axios, location, console }) => {
+                    axios
+                        .delete(route("login.destroy"))
+                        .then((httpResponse) => {
+                            location.href = route("login.create");
+                        })
+                        .catch((httpResponse) => {
+                            console.log(httpResponse.response);
+                        });
+                },
+            },
+        ],
+    }),
 };
 </script>
 

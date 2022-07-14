@@ -1,7 +1,7 @@
 <template>
     <Head title="Register" />
 
-    <MinimalLayout>
+    <GuestLayout>
         <div class="container max-w-xl mx-auto">
             <form
                 :action="route('register.store')"
@@ -79,12 +79,12 @@
                 </div>
             </form>
         </div>
-    </MinimalLayout>
+    </GuestLayout>
 </template>
 
 <script>
 import { Head, Link } from "@inertiajs/inertia-vue3";
-import MinimalLayout from "@/Layouts/Minimal.vue";
+import GuestLayout from "@/Layouts/Guest.vue";
 import TwInput from "@/Components/FormControls/TwInput.vue";
 import TwButton from "@/Components/FormControls/TwButton.vue";
 import axios from "axios";
@@ -94,7 +94,7 @@ export default {
     components: {
         Head,
         Link,
-        MinimalLayout,
+        GuestLayout,
         TwInput,
         TwButton,
     },
@@ -113,7 +113,7 @@ export default {
             axios
                 .post(route("register.store"), this.formData)
                 .then((httpResponse) => {
-                    location.href = route("home");
+                    location.href = route("login.create");
                 })
                 .catch((httpResponse) => {
                     const errorResponse = httpResponse.response.data.error;

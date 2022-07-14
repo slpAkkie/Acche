@@ -1,5 +1,5 @@
 <template>
-    <Head title="Home" />
+    <Head title="User Settings" />
 
     <AuthorizedLayout>
         <!--  -->
@@ -11,7 +11,7 @@ import { Head } from "@inertiajs/inertia-vue3";
 import AuthorizedLayout from "@/Layouts/Authorized.vue";
 
 export default {
-    name: "HomePage",
+    name: "UserSettingsPage",
     components: {
         Head,
         AuthorizedLayout,

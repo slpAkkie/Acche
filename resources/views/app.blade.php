@@ -16,7 +16,7 @@
     @inertiaHead
 </head>
 
-<body class="font-sans antialiased bg-neutral-900 text-neutral-100">
+<body class="min-h-screen antialiased bg-neutral-900 font-sans text-neutral-100">
     @inertia
 </body>
 
