@@ -1,7 +1,7 @@
 <template>
     <TwNav :canLogout="canLogout" />
 
-    <main>
+    <main class="max-w-3xl mx-auto">
         <slot />
     </main>
 </template>
