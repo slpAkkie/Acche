@@ -1,15 +1,18 @@
 <template>
-    <div class="flex justify-center" v-click-outside="clickedOutside">
+    <Overlay v-if="show" />
+
+    <div class="flex justify-center z-50" v-click-outside="clickedOutside">
         <div>
             <div class="dropdown relative">
                 <TwButton
                     :circle="circle"
+                    :hovered="show"
                     :value="text"
-                    @click="showDropdown = !showDropdown"
+                    @click="show = !show"
                 />
                 <ul
-                    class="list-none bg-zinc-800 min-w-max py-2 rounded absolute top-full right-0 mt-1 z-50"
-                    :class="{ hidden: !showDropdown }"
+                    class="list-none bg-zinc-800 min-w-max py-2 rounded absolute top-full right-0 mt-1 z-10"
+                    :class="{ hidden: !show }"
                 >
                     <component
                         v-for="(el, i) in elements"
@@ -27,6 +30,7 @@
 import DropdownLink from "./DropdownLink.vue";
 import DropdownSeparator from "./DropdownSeparator.vue";
 import TwButton from "./FormControls/TwButton.vue";
+import Overlay from "./Overlay.vue";
 
 export default {
     name: "DropdownMenu",
@@ -45,9 +49,10 @@ export default {
     },
     components: {
         TwButton,
+        Overlay,
     },
     data: () => ({
-        showDropdown: false,
+        show: false,
     }),
     methods: {
         getComponent(elType) {
@@ -61,7 +66,7 @@ export default {
             }
         },
         clickedOutside() {
-            this.showDropdown = false;
+            this.show = false;
         },
     },
 };
