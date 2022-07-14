@@ -6,7 +6,7 @@
 
         <DropdownMenu
             v-if="canLogout"
-            text="Мой аккаунт"
+            :text="nickname"
             :elements="dropdownElements"
             :circle="true"
         />
@@ -16,6 +16,7 @@
 <script>
 import TwButton from "@/Components/FormControls/TwButton.vue";
 import DropdownMenu from "@/Components/Dropdown.vue";
+import { usePage } from "@inertiajs/inertia-vue3";
 
 export default {
     name: "TwNav",
@@ -55,6 +56,11 @@ export default {
             },
         ],
     }),
+    computed: {
+        nickname() {
+            return usePage().props.value.auth.user.nickname;
+        },
+    },
 };
 </script>
 

@@ -39,6 +39,16 @@ class User extends Authenticatable
     ];
 
     /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<string>
+     */
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    /**
      * Create a new Eloquent model instance.
      *
      * @param  array  $attributes

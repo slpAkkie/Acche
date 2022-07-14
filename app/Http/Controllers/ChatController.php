@@ -2,18 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\Request;
+use App\Http\Resources\Chat\ChatResource;
+use App\Models\Chat;
 
 class ChatController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
+     * @param  \App\Http\Requests\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        return ChatResource::collection(
+            Chat::where('name', 'like', '%' . $request->get('query', '') . '%')
+                ->orderBy('updated_at', 'DESC')
+                ->paginate(10)
+        );
     }
 
     /**
@@ -29,7 +36,7 @@ class ChatController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -62,7 +69,7 @@ class ChatController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

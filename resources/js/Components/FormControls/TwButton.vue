@@ -39,7 +39,7 @@ export default {
             return this.circle ? "" : this.value;
         },
         afterContent() {
-            return this.value[0];
+            return this.value[0].toUpperCase();
         },
         wrapperClasses() {
             let classes = this.circle
