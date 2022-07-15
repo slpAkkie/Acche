@@ -4,7 +4,6 @@ namespace App\Exceptions;
 
 use App\Http\Resources\Exceptions\LoginFailedResource;
 use App\Http\Resources\Exceptions\MethodNotAllowedHttpResource;
-use App\Http\Resources\Exceptions\ModelNotFoundResource;
 use App\Http\Resources\Exceptions\NoApiTokenProvidedResource;
 use App\Http\Resources\Exceptions\NotFoundHttpResource;
 use App\Http\Resources\Exceptions\RecordDoesntExistResource;
@@ -12,7 +11,6 @@ use App\Http\Resources\Exceptions\TokenExpiredResource;
 use App\Http\Resources\Exceptions\UnauthorizedResource;
 use App\Http\Resources\Exceptions\ValidationFailedResource;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\ValidationException;
@@ -66,20 +64,23 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $e)
     {
         if ($request->expectsJson()) {
-            if ($e instanceof NotFoundHttpException) return NotFoundHttpResource::make();
-            if ($e instanceof MethodNotAllowedHttpException) return MethodNotAllowedHttpResource::make();
-            if ($e instanceof ModelNotFoundException) return ModelNotFoundResource::make($e->getModel())->asResponse();
-            if ($e instanceof NoApiTokenProvidedException) return NoApiTokenProvidedResource::make();
-            if ($e instanceof RecordDoesntExistException) return RecordDoesntExistResource::make();
-            if ($e instanceof LoginIncorrectException || $e instanceof PasswordIncorrectException) return LoginFailedResource::make();
-            if ($e instanceof AuthorizationException) return UnauthorizedResource::make();
-            if ($e instanceof TokenExpiredException) return TokenExpiredResource::make();
-            if ($e instanceof ValidationException) return ValidationFailedResource::make(
-                // returns errors as string instead of array
+            $resource = null;
+
+            if ($e instanceof NotFoundHttpException) $resource = NotFoundHttpResource::make();
+            if ($e instanceof MethodNotAllowedHttpException) $resource = MethodNotAllowedHttpResource::make();
+            if ($e instanceof NoApiTokenProvidedException) $resource = NoApiTokenProvidedResource::make();
+            if ($e instanceof RecordDoesntExistException) $resource = RecordDoesntExistResource::make();
+            if ($e instanceof LoginIncorrectException || $e instanceof PasswordIncorrectException) $resource = LoginFailedResource::make();
+            if ($e instanceof AuthorizationException) $resource = UnauthorizedResource::make();
+            if ($e instanceof TokenExpiredException) $resource = TokenExpiredResource::make();
+            if ($e instanceof ValidationException) $resource = ValidationFailedResource::make(
+                // Convert errors to string instead of array of string
                 Collection::make($e->errors())->map(function ($i) {
                     return join(', ', $i);
                 })
             );
+
+            if ($resource) return $resource->toResponse($request);
         }
 
         return parent::render($request, $e);

@@ -45,14 +45,4 @@ abstract class CommonErrorResource extends CommonResource
      * @var int
      */
     protected $metadata;
-
-    /**
-     * Create an HTTP response that represents the object.
-     *
-     * @return JsonResponse
-     */
-    public function asResponse(): JsonResponse
-    {
-        return $this->toResponse($this->resource);
-    }
 }
