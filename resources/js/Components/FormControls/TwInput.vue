@@ -56,11 +56,11 @@ export default {
         },
         id: {
             type: String,
-            default: "",
+            default: null,
         },
         name: {
             type: String,
-            default: "",
+            default: null,
         },
         maxLength: {
             type: Number,

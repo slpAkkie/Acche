@@ -62,13 +62,11 @@
                         />
                     </div>
 
-                    <div class="w-full flex flex-col xs:flex-row gap-4">
-                        <TwButton
-                            class="w-1/2 pr-2"
-                            type="submit"
-                            value="Зарегистрироваться"
-                        />
-                    </div>
+                    <TwButton
+                        class="w-1/2 pr-2"
+                        type="submit"
+                        value="Зарегистрироваться"
+                    />
                     <p class="text-zinc-400 mt-5">
                         Если у вас есть аккаунт, можете
                         <Link :href="route('login.create')" class="stilyzed"
@@ -115,8 +113,8 @@ export default {
                 .then((httpResponse) => {
                     location.href = route("login.create");
                 })
-                .catch((httpResponse) => {
-                    const errorResponse = httpResponse.response.data.error;
+                .catch((e) => {
+                    const errorResponse = e.response.data.error;
                     this.wrongFields = errorResponse.errors;
                 });
         },

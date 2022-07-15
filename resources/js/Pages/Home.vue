@@ -2,7 +2,7 @@
     <Head title="Home" />
 
     <AuthorizedLayout>
-        <div class="container mx-auto bg-zinc-800 py-10 px-6">
+        <div class="bg-zinc-800 py-10 px-6">
             <div v-if="chats">
                 <h3 class="font-bold text-xl mb-5">Ваши чаты</h3>
                 <div class="flex items-center gap-4 mb-5">
@@ -97,7 +97,9 @@ export default {
                           );
                           this.apiResponse = httpResponse.data;
                       })
-                      .catch((httpResponse) => {});
+                      .catch((e) => {
+                          console.log(e.response);
+                      });
         },
     },
     mounted() {
