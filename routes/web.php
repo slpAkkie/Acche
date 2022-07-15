@@ -27,12 +27,12 @@ Route::middleware('auth')->group(function () {
 
     // Routes for Chats
     Route::prefix('/chats')->name('chats.')->group(function () {
-        Route::inertia('/', 'Chat/Create')->name('create');
+        Route::get('/index', [App\Http\Controllers\ChatController::class, 'index'])->name('index');
+        Route::inertia('/create', 'Chat/Create')->name('create');
+        Route::post('/store', [App\Http\Controllers\ChatController::class, 'store'])->name('store');
         Route::get('/show/{chat}', fn (App\Http\Requests\Request $request, App\Models\Chat $chat) => Inertia\Inertia::render('Chat/Show', [
             'chat' => App\Http\Resources\Chat\ChatResource::make($chat)->toArray($request),
         ]))->name('show');
-        Route::get('/index', [App\Http\Controllers\ChatController::class, 'index'])->name('index');
-        Route::post('/', [App\Http\Controllers\ChatController::class, 'store'])->name('store');
     });
 });
 

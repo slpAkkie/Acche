@@ -49,8 +49,8 @@ export default {
                         .then((httpResponse) => {
                             location.href = route("login.create");
                         })
-                        .catch((httpResponse) => {
-                            console.log(httpResponse.response);
+                        .catch((e) => {
+                            console.log(e.response);
                         });
                 },
             },

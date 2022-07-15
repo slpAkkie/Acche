@@ -2,20 +2,10 @@
 
 namespace App\Http\Requests\Chat;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\Request;
 
-class StoreRequest extends FormRequest
+class StoreRequest extends Request
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return false;
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -24,7 +14,8 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name'      => 'required',
+            'password'  => 'nullable',
         ];
     }
 }
