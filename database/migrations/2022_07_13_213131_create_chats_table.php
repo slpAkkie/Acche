@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name', 32);
             $table->string('user_nickname', 32)->nullable();
-            $table->string('password', 32)->nullable();
+            $table->string('password', 60)->nullable();
             $table->timestamps();
 
             $table->foreign('user_nickname')->references('nickname')->on('users')->cascadeOnUpdate()->nullOnDelete();

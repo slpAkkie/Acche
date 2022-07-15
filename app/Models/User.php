@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Hash;
 
@@ -27,6 +28,7 @@ class User extends Authenticatable
      * @var bool
      */
     public $incrementing = false;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -84,5 +86,15 @@ class User extends Authenticatable
     public function checkPassword(string $password): bool
     {
         return Hash::check($password, $this->password);
+    }
+
+    /**
+     * Relation: User chats
+     *
+     * @return BelongsToMany
+     */
+    public function chats()
+    {
+        return $this->belongsToMany(Chat::class);
     }
 }

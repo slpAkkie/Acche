@@ -62,9 +62,9 @@ export default {
     methods: {
         requestCreate() {
             axios
-                .post(route("chats.store"))
+                .post(route("chats.store"), this.formData)
                 .then((httpResponse) => {
-                    console.log(httpResponse);
+                    location.href = route("home");
                 })
                 .catch((e) => {
                     console.log(e.response);

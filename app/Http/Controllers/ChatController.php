@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Chat\StoreRequest;
 use App\Http\Requests\Request;
 use App\Http\Resources\Chat\ChatResource;
+use App\Http\Resources\OkResource;
 use App\Models\Chat;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class ChatController extends Controller
 {
@@ -16,8 +20,11 @@ class ChatController extends Controller
      */
     public function index(Request $request)
     {
+        /** @var User */
+        $user = Auth::user();
+
         return ChatResource::collection(
-            Chat::where('name', 'like', '%' . $request->get('query', '') . '%')
+            $user->chats()->where('name', 'like', '%' . $request->get('query', '') . '%')
                 ->orderBy('updated_at', 'DESC')
                 ->paginate(10)
         );
@@ -36,12 +43,21 @@ class ChatController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Request  $request
+     * @param  StoreRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        $chat = new Chat([
+            'name' => $request->get('name'),
+            'user_nickname' => Auth::id(),
+            'password' => $request->get('password') || null,
+        ]);
+
+        $chat->save();
+        $chat->participants()->attach(Auth::id());
+
+        return OkResource::make();
     }
 
     /**

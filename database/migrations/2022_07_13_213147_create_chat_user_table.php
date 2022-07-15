@@ -14,7 +14,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('chat_users', function (Blueprint $table) {
+        Schema::create('chat_user', function (Blueprint $table) {
             $table->id();
             $table->string('user_nickname', 32)->nullable();
             $table->foreignIdFor(Chat::class)->references('id')->on('chats')->cascadeOnUpdate()->cascadeOnDelete();
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('chat_users');
+        Schema::dropIfExists('chat_user');
     }
 };
