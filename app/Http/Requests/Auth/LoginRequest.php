@@ -9,9 +9,9 @@ class LoginRequest extends Request
     /**
      * Get custom messages for validator errors.
      *
-     * @return array
+     * @return array<string, string>
      */
-    public function messages()
+    public function messages(): array
     {
         return [
             'nickname.exists' => 'Аккаунта с этим никнеймом не существует',
@@ -23,7 +23,7 @@ class LoginRequest extends Request
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'nickname'  => 'required|exists:users,nickname',

@@ -8,16 +8,12 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 
 abstract class CommonCollection extends ResourceCollection
 {
-    /*
-    |--------------------------------------------------
-    | Override
-    |--------------------------------------------------
-    */
-
-    public function __construct($resource = null)
-    {
-        parent::__construct($resource);
-    }
+    /**
+     * The response code.
+     *
+     * @var int
+     */
+    protected int $httpResponseCode;
 
     /**
      * The "data" wrapper key.
@@ -27,10 +23,20 @@ abstract class CommonCollection extends ResourceCollection
     public static $wrap = 'data';
 
     /**
+     * Create a new resource instance.
+     *
+     * @param  mixed  $resource
+     */
+    public function __construct(mixed $resource = null)
+    {
+        parent::__construct($resource);
+    }
+
+    /**
      * Set status code into the response data.
      *
-     * @param Request $request
-     * @return int[]
+     * @param  Request  $request
+     * @return array
      */
     public function with($request): array
     {
@@ -42,28 +48,14 @@ abstract class CommonCollection extends ResourceCollection
     /**
      * Set status code as HTTP status code.
      *
-     * @param Request $request
-     * @param JsonResponse $response
+     * @param  Request       $request
+     * @param  JsonResponse  $response
+     * @return void
      */
-    public function withResponse($request, $response)
+    public function withResponse($request, $response): void
     {
         $response->setStatusCode($this->getStatusCode());
     }
-
-
-
-    /*
-    |--------------------------------------------------
-    | Custom properties
-    |--------------------------------------------------
-    */
-
-    /**
-     * The response code.
-     *
-     * @var int
-     */
-    protected $response_code;
 
     /**
      * Get applied status code.
@@ -72,6 +64,6 @@ abstract class CommonCollection extends ResourceCollection
      */
     private function getStatusCode(): int
     {
-        return $this->response_code ?? 200;
+        return $this->httpResponseCode ?? 200;
     }
 }

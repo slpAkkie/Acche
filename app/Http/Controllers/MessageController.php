@@ -2,82 +2,54 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Message;
 use Illuminate\Http\Request;
 
 class MessageController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Returns messages for the chat as a collection
+     * with maximum 25 elements at once.
      *
-     * @return \Illuminate\Http\Response
+     * @param  Request  $request
+     * @param  Message  $message
+     * @return void
      */
-    public function index()
+    public function index(Request $request, Message $message): void
     {
         //
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Handle request to create new message with provided data.
      *
-     * @return \Illuminate\Http\Response
+     * @param  Request  $request
+     * @return void
      */
-    public function create()
+    public function store(Request $request): void
     {
         //
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Update the specified message with provided data.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  Request  $request
+     * @param  Message  $message
+     * @return void
      */
-    public function store(Request $request)
+    public function update(Request $request, Message $message): void
     {
         //
     }
 
     /**
-     * Display the specified resource.
+     * Remove the specified message from the chat.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  Message  $message
+     * @return void
      */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy(Message $message): void
     {
         //
     }

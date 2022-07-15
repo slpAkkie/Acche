@@ -1,5 +1,5 @@
 <template>
-    <Head title="Home" />
+    <Head title="Чаты" />
 
     <AuthorizedLayout>
         <div class="bg-zinc-800 py-10 px-6">

@@ -9,16 +9,19 @@ use App\Http\Resources\OkResource;
 use App\Models\Chat;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class ChatController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Returns chats for authorized user as a collection
+     * with maximum 10 elements at once.
      *
-     * @param  \App\Http\Requests\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  Request  $request
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index(Request $request)
+    public function index(Request $request): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         /** @var User */
         $user = Auth::user();
@@ -31,29 +34,33 @@ class ChatController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Display a page for create new chat.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function create()
+    public function create(): Response
     {
-        //
+        return Inertia::render('Chat/Create');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Handle request to create new chat with provided data.
      *
      * @param  StoreRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return OkResource
      */
-    public function store(StoreRequest $request)
+    public function store(StoreRequest $request): OkResource
     {
+        // Create chat model
         $chat = new Chat([
             'name' => $request->get('name'),
             'user_nickname' => Auth::id(),
             'password' => $request->get('password') || null,
         ]);
 
+        // Save model to the database
+        // and create new participant records
+        // about authorized user.
         $chat->save();
         $chat->participants()->attach(Auth::id());
 
@@ -61,46 +68,49 @@ class ChatController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display a page about chat.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  Request  $request
+     * @param  Chat     $chat
+     * @return Response
      */
-    public function show($id)
+    public function show(Request $request, Chat $chat): Response
+    {
+        return Inertia::render('Chat/Show', [
+            'chat' => ChatResource::make($chat)->toArray($request),
+        ]);
+    }
+
+    /**
+     * Display a page for editing the chat.
+     *
+     * @param  Chat  $chat
+     * @return void
+     */
+    public function edit(Chat $chat): void
     {
         //
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Update the specified chat with provided data.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  Request  $request
+     * @param  Chat     $chat
+     * @return void
      */
-    public function edit($id)
+    public function update(Request $request, Chat $chat): void
     {
         //
     }
 
     /**
-     * Update the specified resource in storage.
+     * Remove the specified chat from the database.
      *
-     * @param  \App\Http\Requests\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  Chat  $chat
+     * @return void
      */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy(Chat $chat): void
     {
         //
     }

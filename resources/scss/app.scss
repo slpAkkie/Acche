@@ -21,3 +21,9 @@ a {
         }
     }
 }
+
+.acche-transition {
+    @apply transition;
+    @apply ease-in-out;
+    @apply duration-150;
+}

@@ -8,10 +8,12 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 abstract class CommonResource extends JsonResource
 {
-    public function __construct($resource = null)
-    {
-        parent::__construct($resource);
-    }
+    /**
+     * The response code.
+     *
+     * @var int
+     */
+    protected int $httpResponseCode;
 
     /**
      * The "data" wrapper key.
@@ -21,10 +23,20 @@ abstract class CommonResource extends JsonResource
     public static $wrap = 'data';
 
     /**
+     * Create a new resource instance.
+     *
+     * @param  mixed  $resource
+     */
+    public function __construct(mixed $resource = null)
+    {
+        parent::__construct($resource);
+    }
+
+    /**
      * Set status code into the response data.
      *
-     * @param Request $request
-     * @return int[]
+     * @param  Request  $request
+     * @return array
      */
     public function with($request): array
     {
@@ -36,22 +48,14 @@ abstract class CommonResource extends JsonResource
     /**
      * Set status code as HTTP status code.
      *
-     * @param Request $request
-     * @param JsonResponse $response
+     * @param  Request       $request
+     * @param  JsonResponse  $response
+     * @return void
      */
-    public function withResponse($request, $response)
+    public function withResponse($request, $response): void
     {
         $response->setStatusCode($this->getStatusCode());
     }
-
-
-
-    /**
-     * The response code.
-     *
-     * @var int
-     */
-    protected $response_code;
 
     /**
      * Get applied status code.
@@ -60,6 +64,19 @@ abstract class CommonResource extends JsonResource
      */
     private function getStatusCode(): int
     {
-        return $this->response_code ?? 200;
+        return $this->httpResponseCode ?? 200;
+    }
+
+    /**
+     * Transform the resource into an array.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     */
+    public function toArray($request): array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+    {
+        return [
+            //
+        ];
     }
 }

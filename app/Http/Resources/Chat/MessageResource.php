@@ -12,10 +12,10 @@ class MessageResource extends CommonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
-    public function toArray($request)
+    public function toArray($request): array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
     {
         return [
-            'author' => $this->author,
+            'author' => OwnerResource::make($this->author),
             'content' => $this->content,
         ];
     }

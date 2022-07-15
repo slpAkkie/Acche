@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Hash;
 
+/**
+ * @mixin Illuminate\Database\Query\Builder
+ */
 class Chat extends Model
 {
     use HasFactory;
@@ -27,7 +30,6 @@ class Chat extends Model
      * Create a new Eloquent model instance.
      *
      * @param  array  $attributes
-     * @return void
      */
     public function __construct(array $attributes = [])
     {
@@ -40,9 +42,9 @@ class Chat extends Model
     }
 
     /**
-     * Set new password
+     * Set new password.
      *
-     * @param string $password
+     * @param  string  $password
      * @return void
      */
     private function setPassword(string $password): void
@@ -51,10 +53,10 @@ class Chat extends Model
     }
 
     /**
-     * Check if password correct for the user
+     * Check if password correct for the user.
      *
-     * @param string $password
-     * @return boolean
+     * @param  string  $password
+     * @return bool
      */
     public function checkPassword(string $password): bool
     {
@@ -62,31 +64,31 @@ class Chat extends Model
     }
 
     /**
-     * Relation: Chat owner user
+     * Relation: Chat owner user.
      *
      * @return BelongsTo
      */
-    public function owner()
+    public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_nickname');
     }
 
     /**
-     * Relation: Chat participants
+     * Relation: Chat participants.
      *
      * @return BelongsToMany
      */
-    public function participants()
+    public function participants(): BelongsToMany
     {
         return $this->belongsToMany(User::class);
     }
 
     /**
-     * Relation: chat messages
+     * Relation: chat messages.
      *
      * @return HasMany
      */
-    public function messages()
+    public function messages(): HasMany
     {
         return $this->hasMany(Message::class);
     }

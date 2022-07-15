@@ -6,25 +6,35 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Resources\OkResource;
 use App\Models\User;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class RegisterController extends Controller
 {
     /**
-     * Register new user with provided data
+     * Display the page for register new user.
      *
-     * @param RegisterRequest $request
-     * @return void
+     * @return Response
      */
-    public function store(RegisterRequest $request)
+    public function create(): Response
     {
-        $user = new User($request->only([
+        return Inertia::render('Auth/Register');
+    }
+
+    /**
+     * Handle request to register new user with provided data.
+     *
+     * @param  RegisterRequest  $request
+     * @return OkResource
+     */
+    public function store(RegisterRequest $request): OkResource
+    {
+        (new User($request->only([
             'nickname',
             'name',
             'email',
             'password',
-        ]));
-
-        $user->save();
+        ])))->save();
 
         return OkResource::make();
     }

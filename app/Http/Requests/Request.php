@@ -11,7 +11,7 @@ class Request extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -19,9 +19,9 @@ class Request extends FormRequest
     /**
      * Get custom attributes for validator errors.
      *
-     * @return array
+     * @return array<string, string>
      */
-    public function attributes()
+    public function attributes(): array
     {
         return [
             //
@@ -31,9 +31,9 @@ class Request extends FormRequest
     /**
      * Get custom messages for validator errors.
      *
-     * @return array
+     * @return array<string, string>
      */
-    public function messages()
+    public function messages(): array
     {
         return [
             //
@@ -45,7 +45,7 @@ class Request extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             //

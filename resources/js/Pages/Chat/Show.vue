@@ -1,5 +1,6 @@
 <template>
-    <Head title="Create new chat" />
+    <!-- TODO: Set title according to the chat name or id -->
+    <Head title="Чат #0000000" />
 
     <AuthorizedLayout>
         <!--  -->

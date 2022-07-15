@@ -24,8 +24,11 @@ export default {
         Link,
     },
     methods: {
-        clickHandler() {
-            if (this.data.click) this.data.click({ ...window });
+        clickHandler(event) {
+            if (this.data.click) {
+                event.preventDefault();
+                this.data.click({ ...window });
+            }
         },
     },
 };

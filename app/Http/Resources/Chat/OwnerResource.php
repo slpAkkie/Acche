@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Chat;
 
-final class OkResource extends CommonResource
+use App\Http\Resources\CommonResource;
+
+class OwnerResource extends CommonResource
 {
     /**
      * Transform the resource into an array.
@@ -13,7 +15,8 @@ final class OkResource extends CommonResource
     public function toArray($request): array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
     {
         return [
-            'message' => 'OK',
+            'nickname'  => $this->nickname,
+            'name'      => $this->name,
         ];
     }
 }

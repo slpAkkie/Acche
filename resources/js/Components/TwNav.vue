@@ -1,7 +1,7 @@
 <template>
     <nav class="py-3 px-6 bg-blue-700 flex justify-between items-center">
         <h1 class="font-bold tracking-widest text-3xl">
-            <a :href="route('home')" class="unstyled">Acche</a>
+            <Link :href="route('home')" class="unstyled">Acche</Link>
         </h1>
 
         <DropdownMenu
@@ -16,7 +16,7 @@
 <script>
 import TwButton from "@/Components/FormControls/TwButton.vue";
 import DropdownMenu from "@/Components/Dropdown.vue";
-import { usePage } from "@inertiajs/inertia-vue3";
+import { usePage, Link } from "@inertiajs/inertia-vue3";
 
 export default {
     name: "TwNav",
@@ -27,6 +27,7 @@ export default {
         },
     },
     components: {
+        Link,
         TwButton,
         DropdownMenu,
     },
@@ -36,16 +37,16 @@ export default {
             {
                 type: "link",
                 slot: "Настройки аккаунта",
-                href: route("user.settings.create"),
+                href: route("user.settings.index"),
             },
             { type: "separator" },
             {
                 type: "link",
                 slot: "Выход",
-                href: route("login.destroy"),
+                href: "#",
                 click: ({ axios, location, console }) => {
                     axios
-                        .delete(route("login.destroy"))
+                        .delete(route("logout"))
                         .then((httpResponse) => {
                             location.href = route("login.create");
                         })

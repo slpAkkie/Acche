@@ -12,12 +12,14 @@ class ChatResource extends CommonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
-    public function toArray($request)
+    public function toArray($request): array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'messages' => MessageResource::collection($this->messages),
+            'id'        => $this->id,
+            'name'      => $this->name,
+            'owner'     => OwnerResource::make($this->owner),
+            'guarded'   => !!$this->password,
+            'messages'  => MessageResource::collection($this->messages),
         ];
     }
 }

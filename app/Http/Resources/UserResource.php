@@ -2,7 +2,9 @@
 
 namespace App\Http\Resources;
 
-final class OkResource extends CommonResource
+use Illuminate\Http\Resources\Json\JsonResource;
+
+class UserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -13,7 +15,9 @@ final class OkResource extends CommonResource
     public function toArray($request): array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
     {
         return [
-            'message' => 'OK',
+            'nickname'  => $this->nickname,
+            'name'      => $this->name,
+            'email'     => $this->email,
         ];
     }
 }

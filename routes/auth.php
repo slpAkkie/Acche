@@ -12,21 +12,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Routes that should be accessed only by unauthorized user
 Route::middleware('guest')->group(function () {
     Route::prefix('/login')->name('login.')->group(function () {
-        Route::inertia('/', 'Auth/Login')->name('create');
+        Route::get('/', [App\Http\Controllers\Auth\LoginController::class, 'create'])->name('create');
         Route::post('/', [App\Http\Controllers\Auth\LoginController::class, 'store'])->name('store');
     });
 
     Route::prefix('/register')->name('register.')->group(function () {
-        Route::inertia('/', 'Auth/Register')->name('create');
+        Route::get('/', [App\Http\Controllers\Auth\RegisterController::class, 'create'])->name('create');
         Route::post('/', [App\Http\Controllers\Auth\RegisterController::class, 'store'])->name('store');
     });
 });
 
-
-Route::middleware('auth')->group(function () {
-    Route::prefix('/login')->name('login.')->group(function () {
-        Route::delete('/', [App\Http\Controllers\Auth\LoginController::class, 'destroy'])->name('destroy');
-    });
-});
+// Routes that should be accessed only by authorized user
+Route::middleware('auth')->delete('/logout', [App\Http\Controllers\Auth\LoginController::class, 'destroy'])->name('logout');

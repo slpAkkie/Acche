@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <!-- Page title -->
     <title inertia>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fonts -->

@@ -1,5 +1,5 @@
 <template>
-    <Head title="Login" />
+    <Head title="Вход" />
 
     <GuestLayout>
         <div class="container max-w-xl mx-auto">

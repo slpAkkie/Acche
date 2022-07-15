@@ -1,5 +1,5 @@
 <template>
-    <Head title="Create new chat" />
+    <Head title="Новый чат" />
 
     <AuthorizedLayout>
         <div class="bg-zinc-800 py-10 px-6">

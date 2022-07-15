@@ -12,7 +12,7 @@ const appName =
     window.document.getElementsByTagName("title")[0]?.innerText || "Laravel";
 
 createInertiaApp({
-    title: (title) => `${title} - ${appName}`,
+    title: (title) => `${appName} - ${title}`,
     resolve: (name) =>
         resolvePageComponent(
             `./Pages/${name}.vue`,
@@ -27,4 +27,4 @@ createInertiaApp({
     },
 });
 
-InertiaProgress.init({ color: "#4B5563" });
+InertiaProgress.init({ color: "rgb(245 245 245 / 1)" });

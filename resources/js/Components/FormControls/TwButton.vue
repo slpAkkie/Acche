@@ -6,7 +6,7 @@
     >
         <input
             :type="type"
-            class="block w-full bg-zinc-700 rounded font-bold uppercase tracking-widest cursor-pointer group-hover:bg-zinc-200 group-hover:text-zinc-800 group-active:bg-zinc-100 group-active:text-zinc-800 transition ease-in-out duration-150"
+            class="block w-full bg-zinc-700 rounded font-bold uppercase tracking-widest cursor-pointer group-hover:bg-zinc-200 group-hover:text-zinc-800 group-active:bg-zinc-100 group-active:text-zinc-800 acche-transition"
             :class="inputClasses"
             :value="text"
         />

@@ -1,5 +1,5 @@
 <template>
-    <Head title="User Settings" />
+    <Head title="Настройки пользователя" />
 
     <AuthorizedLayout>
         <!--  -->

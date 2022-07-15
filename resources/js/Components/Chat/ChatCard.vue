@@ -1,22 +1,22 @@
 <template>
     <div class="group cursor-pointer" @click="openChat">
         <div
-            class="p-3 border border-zinc-500 group-hover:border-blue-700 rounded group-hover:bg-blue-700 transition ease-in-out duration-150"
+            class="p-3 border border-zinc-500 group-hover:border-blue-700 rounded group-hover:bg-blue-700 acche-transition"
         >
             <h3 class="font-bold text-lg">{{ chat.name }}</h3>
-            <p
-                class="text-zinc-300 group-hover:text-zinc-100 transition ease-in-out duration-150"
-            >
+            <p class="text-zinc-300 group-hover:text-zinc-100 acche-transition">
                 <span v-if="lastMessage">
                     <span
-                        class="text-zinc-500 group-hover:text-zinc-300 transition ease-in-out duration-150"
+                        class="text-zinc-500 group-hover:text-zinc-300 acche-transition"
                         >{{ lastMessage.author.nickname }} ({{
                             lastMessage.author.name
                         }})</span
                     >:
                     {{ lastMessage.content }}
                 </span>
-                <span v-else class="text-zinc-500 group-hover:text-zinc-300"
+                <span
+                    v-else
+                    class="text-zinc-500 group-hover:text-zinc-300 acche-transition"
                     >Сообщений еще нет</span
                 >
             </p>

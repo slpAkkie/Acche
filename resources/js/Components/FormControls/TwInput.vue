@@ -7,7 +7,7 @@
             >
         </label>
         <input
-            class="text-zinc-300 bg-zinc-700 border-2 border-zinc-700 focus:border-blue-500 focus:ring-blue-500 rounded py-1 px-2 placeholder:text-zinc-500 transition ease-in-out duration-150"
+            class="text-zinc-300 bg-zinc-700 border-2 border-zinc-700 focus:border-blue-500 focus:ring-blue-500 rounded py-1 px-2 placeholder:text-zinc-500 acche-transition"
             :class="
                 hasError && [
                     'text-rose-500',

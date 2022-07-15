@@ -1,5 +1,5 @@
 <template>
-    <Head title="Register" />
+    <Head title="Регистрация" />
 
     <GuestLayout>
         <div class="container max-w-xl mx-auto">

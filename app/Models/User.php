@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Hash;
 
+/**
+ * @mixin Illuminate\Database\Query\Builder
+ */
 class User extends Authenticatable
 {
     /**
@@ -53,8 +56,7 @@ class User extends Authenticatable
     /**
      * Create a new Eloquent model instance.
      *
-     * @param  array  $attributes
-     * @return void
+     * @param  array<string, mixed>  $attributes
      */
     public function __construct(array $attributes = [])
     {
@@ -67,9 +69,9 @@ class User extends Authenticatable
     }
 
     /**
-     * Set new password
+     * Set new password.
      *
-     * @param string $password
+     * @param  string  $password
      * @return void
      */
     private function setPassword(string $password): void
@@ -78,10 +80,10 @@ class User extends Authenticatable
     }
 
     /**
-     * Check if password correct for the user
+     * Check if password correct for the user.
      *
-     * @param string $password
-     * @return boolean
+     * @param  string  $password
+     * @return bool
      */
     public function checkPassword(string $password): bool
     {
@@ -89,11 +91,11 @@ class User extends Authenticatable
     }
 
     /**
-     * Relation: User chats
+     * Relation: User chats.
      *
      * @return BelongsToMany
      */
-    public function chats()
+    public function chats(): BelongsToMany
     {
         return $this->belongsToMany(Chat::class);
     }

@@ -13,26 +13,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Routes that should be accessed only by authorized user
 Route::middleware('auth')->group(function () {
-    Route::inertia('/', 'Home')->name('home');
+    // Home page
+    Route::get('/', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
 
-    // Routes for User
+    // User's pages
     Route::prefix('/user')->name('user.')->group(function () {
-        // Routes for User Settings
+        // User's settings pages
         Route::name('settings.')->group(function () {
-            Route::inertia('/settings', 'User/Settings')->name('create');
+            Route::get('/settings', [App\Http\Controllers\User\SettingsController::class, 'index'])->name('index');
             Route::post('/settings', [App\Http\Controllers\User\SettingsController::class, 'store'])->name('store');
         });
     });
 
-    // Routes for Chats
+    // Chat's pages
     Route::prefix('/chats')->name('chats.')->group(function () {
         Route::get('/index', [App\Http\Controllers\ChatController::class, 'index'])->name('index');
-        Route::inertia('/create', 'Chat/Create')->name('create');
+        Route::get('/show/{chat}', [App\Http\Controllers\ChatController::class, 'show'])->name('show');
+        Route::get('/create', [App\Http\Controllers\ChatController::class, 'create'])->name('create');
         Route::post('/store', [App\Http\Controllers\ChatController::class, 'store'])->name('store');
-        Route::get('/show/{chat}', fn (App\Http\Requests\Request $request, App\Models\Chat $chat) => Inertia\Inertia::render('Chat/Show', [
-            'chat' => App\Http\Resources\Chat\ChatResource::make($chat)->toArray($request),
-        ]))->name('show');
     });
 });
 
