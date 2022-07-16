@@ -16,6 +16,15 @@ class Message extends Model
     use HasFactory;
 
     /**
+     * The relationships that should be touched on save.
+     *
+     * @var array
+     */
+    protected $touches = [
+        'chat',
+    ];
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<string>
@@ -46,5 +55,15 @@ class Message extends Model
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_nickname');
+    }
+
+    /**
+     * Relation: Chat
+     *
+     * @return BelongsTo
+     */
+    public function chat(): BelongsTo
+    {
+        return $this->belongsTo(Chat::class);
     }
 }
