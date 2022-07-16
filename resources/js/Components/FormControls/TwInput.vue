@@ -23,6 +23,7 @@
             :name="name"
             :placeholder="placeholder"
             v-model="inputVal"
+            :autofocus="autofocus"
             ref="input"
         />
         <p v-if="hasError" class="text-rose-700 text-sm mt-1">
@@ -69,6 +70,10 @@ export default {
         wrongFields: {
             type: Object,
             default: () => ({}),
+        },
+        autofocus: {
+            type: Boolean,
+            default: false,
         },
     },
     emits: ["update:modelValue"],

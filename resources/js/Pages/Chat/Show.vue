@@ -7,6 +7,8 @@
             <div class="-mb-px pt-6 px-6">
                 <div
                     class="flex flex-col gap-4 border border-zinc-600 rounded-t p-4 h-[calc(100vh-64px-68px-1.5rem)] overflow-y-auto"
+                    ref="messageContainer"
+                    @scroll="handleScroll"
                 >
                     <template v-if="messagesLoaded">
                         <MessageCard
@@ -31,6 +33,7 @@
                 <TwInput
                     name="content"
                     placeholder="Сообщение..."
+                    :autofocus="true"
                     v-model="formData.content"
                 />
                 <TwButton type="submit" value="Отправить" />
@@ -61,8 +64,15 @@ export default {
             content: "",
         },
         apiResponse: null,
+        messagesLoading: false,
     }),
     computed: {
+        loadMessagesLink() {
+            if (!this.apiResponse)
+                return route("chats.messages.index", this.id);
+
+            return this.apiResponse.links?.next;
+        },
         id() {
             return usePage().props.value.chat.id;
         },
@@ -80,15 +90,33 @@ export default {
                 .then((httpResponse) => {
                     location.reload();
                 })
-                .catch((e) => {});
+                .catch((e) => {
+                    console.log(e);
+                });
         },
         loadMessages() {
+            if (!this.loadMessagesLink || this.messagesLoading) return;
+
+            this.messagesLoading = true;
             axios
-                .get(route("chats.messages.index", this.id))
+                .get(this.loadMessagesLink)
                 .then((httpResponse) => {
+                    if (!this.apiResponse) {
+                        httpResponse.data.data.reverse();
+                        return (this.apiResponse = httpResponse.data);
+                    }
+
+                    httpResponse.data.data
+                        .reverse()
+                        .push(...this.apiResponse.data);
                     this.apiResponse = httpResponse.data;
                 })
-                .catch((e) => {});
+                .catch((e) => {
+                    console.log(e);
+                })
+                .finally(() => {
+                    this.messagesLoading = false;
+                });
         },
         scrollDown(index) {
             if (this.maybeScrolledDown && index === this.messages.length - 1)
@@ -102,6 +130,9 @@ export default {
                         }),
                     50
                 );
+        },
+        handleScroll(event) {
+            if (this.$refs.messageContainer.scrollTop < 4) this.loadMessages();
         },
     },
     created() {

@@ -24,7 +24,7 @@ class MessageController extends Controller
     {
         return MessageResource::collection(
             $chat->messages()
-                ->orderBy('created_at')
+                ->orderBy('created_at', 'DESC')
                 ->paginate(25)
         );
     }
