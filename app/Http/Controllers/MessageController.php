@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Messages\StoreRequest;
+use App\Http\Resources\Chat\MessageResource;
+use App\Http\Resources\OkResource;
+use App\Models\Chat;
 use App\Models\Message;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
 {
@@ -12,23 +17,34 @@ class MessageController extends Controller
      * with maximum 25 elements at once.
      *
      * @param  Request  $request
-     * @param  Message  $message
-     * @return void
+     * @param  Chat  $message
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index(Request $request, Message $message): void
+    public function index(Request $request, Chat $chat): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
-        //
+        return MessageResource::collection(
+            $chat->messages()
+                ->orderBy('created_at')
+                ->paginate(25)
+        );
     }
 
     /**
      * Handle request to create new message with provided data.
      *
-     * @param  Request  $request
-     * @return void
+     * @param  StoreRequest  $request
+     * @param  Chat          $chat
+     * @return OkResource
      */
-    public function store(Request $request): void
+    public function store(StoreRequest $request, Chat $chat): OkResource
     {
-        //
+        (new Message([
+            'content'       => $request->get('content'),
+            'chat_id'       => $chat->id,
+            'user_nickname' => Auth::id(),
+        ]))->save();
+
+        return OkResource::make();
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Chat;
 
 use App\Http\Resources\CommonResource;
+use Illuminate\Support\Facades\Auth;
 
 class MessageResource extends CommonResource
 {
@@ -17,6 +18,8 @@ class MessageResource extends CommonResource
         return [
             'author' => OwnerResource::make($this->author),
             'content' => $this->content,
+            'owner' => $this->user_nickname === Auth::id(),
+            'sent_at' => $this->sent_at,
         ];
     }
 }

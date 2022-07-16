@@ -30,9 +30,17 @@ Route::middleware('auth')->group(function () {
     // Chat's pages
     Route::prefix('/chats')->name('chats.')->group(function () {
         Route::get('/index', [App\Http\Controllers\ChatController::class, 'index'])->name('index');
-        Route::get('/show/{chat}', [App\Http\Controllers\ChatController::class, 'show'])->name('show');
         Route::get('/create', [App\Http\Controllers\ChatController::class, 'create'])->name('create');
         Route::post('/store', [App\Http\Controllers\ChatController::class, 'store'])->name('store');
+
+        Route::prefix('/{chat}')->group(function () {
+            Route::get('/', [App\Http\Controllers\ChatController::class, 'show'])->name('show');
+
+            Route::prefix('/messages')->name('messages.')->group(function () {
+                Route::get('/', [App\Http\Controllers\MessageController::class, 'index'])->name('index');
+                Route::post('/', [App\Http\Controllers\MessageController::class, 'store'])->name('store');
+            });
+        });
     });
 });
 
