@@ -32,6 +32,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/index', [App\Http\Controllers\ChatController::class, 'index'])->name('index');
         Route::get('/create', [App\Http\Controllers\ChatController::class, 'create'])->name('create');
         Route::post('/store', [App\Http\Controllers\ChatController::class, 'store'])->name('store');
+        Route::get('/join', [App\Http\Controllers\ChatController::class, 'join'])->name('join');
+        Route::post('/join', [App\Http\Controllers\ChatController::class, 'allowAccess'])->name('allowAccess');
 
         Route::prefix('/{chat}')->group(function () {
             Route::get('/', [App\Http\Controllers\ChatController::class, 'show'])->name('show');

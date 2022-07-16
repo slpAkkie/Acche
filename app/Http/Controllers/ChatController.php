@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Chat\StoreRequest;
 use App\Http\Requests\Request;
 use App\Http\Resources\Chat\ChatResource;
+use App\Http\Resources\Exceptions\ValidationFailedResource;
 use App\Http\Resources\OkResource;
 use App\Models\Chat;
 use App\Models\User;
@@ -41,6 +42,38 @@ class ChatController extends Controller
     public function create(): Response
     {
         return Inertia::render('Chat/Create');
+    }
+
+    /**
+     * Display a page for join into a chat.
+     *
+     * @return Response
+     */
+    public function join(): Response
+    {
+        return Inertia::render('Chat/Join');
+    }
+
+    /**
+     * Handle request to allow access to the chat with provided data.
+     *
+     * @param  StoreRequest  $request
+     * @param  Chat          $chat
+     * @return OkResource
+     */
+    public function allowAccess(Request $request, Chat $chat)
+    {
+        $chat = Chat::find((int)$request->get('id'));
+
+        if (!$chat || !$chat->checkPassword($request->get('password') || '')) {
+            return ValidationFailedResource::make([
+                'id' => 'Такого чата нет или пароль указан не верно',
+            ]);
+        }
+
+        $chat->participants()->syncWithoutDetaching(Auth::id());
+
+        return ChatResource::make($chat);
     }
 
     /**

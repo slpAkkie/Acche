@@ -11,7 +11,8 @@
                         placeholder="Найти чат..."
                         :max-length="32"
                     />
-                    <TwButton value="Добавить чат" @click="openChatCreate" />
+                    <TwButton value="Войти в..." @click="openChatJoin" />
+                    <TwButton value="Новый" @click="openChatCreate" />
                 </div>
                 <div v-if="chats.length" class="flex flex-col gap-4">
                     <ChatCard
@@ -80,6 +81,9 @@ export default {
         },
     },
     methods: {
+        openChatJoin() {
+            location.href = route("chats.join");
+        },
         openChatCreate() {
             location.href = route("chats.create");
         },
