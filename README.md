@@ -12,4 +12,4 @@ Alexandr Shamanin (@slpAkkie)
 
 # Version
 
-0.0.0.0-alpha
+1.0.2
