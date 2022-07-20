@@ -6,7 +6,7 @@
     <AuthorizedLayout>
         <div class="bg-zinc-800">
             <div class="-mb-px pt-6 px-6">
-                <div class="flex flex-col gap-4 border border-zinc-600 rounded-t p-4 h-[calc(100vh-64px-68px-1.5rem)] overflow-y-auto"
+                <div class="flex flex-col gap-4 border border-zinc-600 rounded-t p-4 h-[calc(100vh-64px-116px-1.5rem)] sm:h-[calc(100vh-64px-68px-1.5rem)] overflow-y-auto"
                     ref="messageContainer" @scroll="handleScroll">
                     <template v-if="messagesLoaded">
                         <MessageCard v-for="(data, i) in messages" :key="data.id" :data="data" :index="i"
@@ -17,10 +17,10 @@
                 </div>
             </div>
             <div class="h-px bg-zinc-600"></div>
-            <form class="flex flex-row items-center gap-4 py-4 px-6" :action="route('chats.messages.store', id)"
-                method="post" @submit.prevent="requestMessage">
+            <form class="flex flex-col sm:flex-row items-center gap-4 py-4 px-6"
+                :action="route('chats.messages.store', id)" method="post" @submit.prevent="requestMessage">
                 <TwInput name="content" placeholder="Сообщение..." :autofocus="true" v-model="formData.content" />
-                <TwButton type="submit" value="Отправить" />
+                <TwButton class="w-full sm:w-auto" type="submit" value="Отправить" />
             </form>
         </div>
     </AuthorizedLayout>

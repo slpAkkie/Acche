@@ -6,10 +6,10 @@
         <div class="bg-zinc-800 py-10 px-6">
             <div v-if="chats">
                 <h3 class="font-bold text-xl mb-5">Ваши чаты</h3>
-                <div class="flex items-center gap-4 mb-5">
-                    <TwInput v-model="chatQuery" placeholder="Найти чат..." :max-length="32" />
-                    <TwButton value="Войти в..." @click="openChatJoin" />
-                    <TwButton value="Новый" @click="openChatCreate" />
+                <div class="flex flex-wrap sm:flex-nowrap items-center gap-4 mb-5">
+                    <TwInput class="grow sm:grow-0" v-model="chatQuery" placeholder="Найти чат..." :max-length="32" />
+                    <TwButton class="grow sm:grow-0" value="Войти в..." @click="openChatJoin" />
+                    <TwButton class="grow sm:grow-0" value="Новый" @click="openChatCreate" />
                 </div>
                 <div v-if="chats.length" class="flex flex-col gap-4">
                     <ChatCard v-for="chat in chats" :key="chat.id" :chat="chat" />
