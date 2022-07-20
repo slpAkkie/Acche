@@ -1,24 +1,18 @@
 <template>
     <div class="group cursor-pointer" @click="openChat">
         <div
-            class="p-3 border border-zinc-600 group-hover:border-blue-700 rounded group-hover:bg-blue-700 acche-transition"
-        >
+            class="p-3 border border-zinc-600 group-hover:border-blue-700 rounded group-hover:bg-blue-700 acche-transition">
             <h3 class="font-bold text-lg">{{ chat.name }}</h3>
             <p class="text-zinc-300 group-hover:text-zinc-100 acche-transition">
                 <span v-if="lastMessage">
-                    <span
-                        class="text-zinc-500 group-hover:text-zinc-300 acche-transition"
-                        >{{ lastMessage.author.nickname }} ({{
-                            lastMessage.author.name
-                        }})</span
-                    >:
+                    <span class="text-zinc-500 group-hover:text-zinc-300 acche-transition">{{
+                            lastMessage.author.nickname
+                    }} ({{
+        lastMessage.author.name
+}})</span>:
                     {{ lastMessage.content }}
                 </span>
-                <span
-                    v-else
-                    class="text-zinc-500 group-hover:text-zinc-300 acche-transition"
-                    >Сообщений еще нет</span
-                >
+                <span v-else class="text-zinc-500 group-hover:text-zinc-300 acche-transition">Сообщений еще нет</span>
             </p>
         </div>
     </div>
@@ -38,7 +32,7 @@ export default {
             return this.chat.messages;
         },
         lastMessage() {
-            return this.messages[0];
+            return this.messages.at(-1);
         },
     },
     methods: {
@@ -49,4 +43,5 @@ export default {
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+</style>

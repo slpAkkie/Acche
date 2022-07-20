@@ -29,6 +29,16 @@ class MessageController extends Controller
         );
     }
 
+    public function checkNew(Request $request, Chat $chat)
+    {
+        return MessageResource::collection(
+            $chat->messages()
+                ->where('id', '>', $request->get('after'))
+                ->orderBy('created_at', 'DESC')
+                ->paginate(25)
+        );
+    }
+
     /**
      * Handle request to create new message with provided data.
      *

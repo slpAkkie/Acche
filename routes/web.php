@@ -35,11 +35,14 @@ Route::middleware('auth')->group(function () {
         Route::get('/join', [App\Http\Controllers\ChatController::class, 'join'])->name('join');
         Route::post('/join', [App\Http\Controllers\ChatController::class, 'allowAccess'])->name('allowAccess');
 
+        // Concrete chat
         Route::prefix('/{chat}')->group(function () {
             Route::get('/', [App\Http\Controllers\ChatController::class, 'show'])->name('show');
 
+            // Chat's messages
             Route::prefix('/messages')->name('messages.')->group(function () {
                 Route::get('/', [App\Http\Controllers\MessageController::class, 'index'])->name('index');
+                Route::get('/checkNew', [App\Http\Controllers\MessageController::class, 'checkNew'])->name('checkNew');
                 Route::post('/', [App\Http\Controllers\MessageController::class, 'store'])->name('store');
             });
         });

@@ -1,4 +1,5 @@
 <template>
+
     <Head title="Чаты" />
 
     <AuthorizedLayout>
@@ -6,20 +7,12 @@
             <div v-if="chats">
                 <h3 class="font-bold text-xl mb-5">Ваши чаты</h3>
                 <div class="flex items-center gap-4 mb-5">
-                    <TwInput
-                        v-model="chatQuery"
-                        placeholder="Найти чат..."
-                        :max-length="32"
-                    />
+                    <TwInput v-model="chatQuery" placeholder="Найти чат..." :max-length="32" />
                     <TwButton value="Войти в..." @click="openChatJoin" />
                     <TwButton value="Новый" @click="openChatCreate" />
                 </div>
                 <div v-if="chats.length" class="flex flex-col gap-4">
-                    <ChatCard
-                        v-for="chat in chats"
-                        :key="chat.id"
-                        :chat="chat"
-                    />
+                    <ChatCard v-for="chat in chats" :key="chat.id" :chat="chat" />
                     <div v-if="hasMore" class="flex justify-center">
                         <TwButton value="Еще..." @click="searchChats" />
                     </div>
@@ -81,6 +74,16 @@ export default {
         },
     },
     methods: {
+        setMessageCheckInterval() {
+            this.messageCheckInterval = setInterval(this.checkNewMessages, 2500);
+        },
+        removeMessageCheckInterval() {
+            clearInterval(this.messageCheckInterval);
+        },
+        restartMessageCheckInterval() {
+            this.removeMessageCheckInterval();
+            this.setMessageCheckInterval();
+        },
         openChatJoin() {
             location.href = route("chats.join");
         },
@@ -91,25 +94,46 @@ export default {
             return this.loadLink === null
                 ? null
                 : axios
-                      .get(this.loadLink)
-                      .then((httpResponse) => {
-                          if (!this.apiResponse)
-                              return (this.apiResponse = httpResponse.data);
+                    .get(this.loadLink)
+                    .then((httpResponse) => {
+                        if (!this.apiResponse)
+                            return (this.apiResponse = httpResponse.data);
 
-                          httpResponse.data.data.unshift(
-                              ...this.apiResponse.data
-                          );
-                          this.apiResponse = httpResponse.data;
-                      })
-                      .catch((e) => {
-                          console.log(e.response);
-                      });
+                        httpResponse.data.data.unshift(
+                            ...this.apiResponse.data
+                        );
+                        this.apiResponse = httpResponse.data;
+                    })
+                    .catch((e) => {
+                        console.log(e.response);
+                    });
+        },
+        checkNewMessages() {
+            this.chats.forEach(chat => {
+                const lastMessageID = chat.messages.at(-1).id;
+
+                axios
+                    .get(route('chats.messages.checkNew', { chat: chat.id, after: lastMessageID }))
+                    .then((httpResponse) => {
+                        if (httpResponse.data.data.length) {
+                            chat.messages.push(...httpResponse.data.data.reverse());
+                        }
+                    })
+                    .catch((e) => {
+                        console.log(e);
+                    });
+            });
         },
     },
     mounted() {
         this.searchChats();
+        this.setMessageCheckInterval();
+    },
+    unmounted() {
+        this.removeMessageCheckInterval();
     },
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+</style>

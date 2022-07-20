@@ -16,6 +16,7 @@ class MessageResource extends CommonResource
     public function toArray($request): array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
     {
         return [
+            'id' => $this->id,
             'author' => OwnerResource::make($this->author),
             'content' => $this->content,
             'owner' => $this->user_nickname === Auth::id(),

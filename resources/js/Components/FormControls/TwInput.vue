@@ -2,9 +2,7 @@
     <div class="flex flex-col w-full">
         <label v-if="label" :for="name" class="text-zinc-300">
             {{ label }}
-            <span v-if="subLabel" class="text-zinc-500 text-sm"
-                >({{ subLabel }})</span
-            >
+            <span v-if="subLabel" class="text-zinc-500 text-sm">({{ subLabel }})</span>
         </label>
         <input
             class="text-zinc-300 bg-zinc-700 border-2 border-zinc-700 focus:border-blue-500 focus:ring-blue-500 rounded py-1 px-2 placeholder:text-zinc-500 acche-transition"
@@ -17,15 +15,8 @@
                     'placeholder:text-rose-500',
                     'placeholder:opacity-90',
                 ]
-            "
-            :type="type"
-            :id="id || name"
-            :name="name"
-            :placeholder="placeholder"
-            v-model="inputVal"
-            :autofocus="autofocus"
-            ref="input"
-        />
+            " :type="type" :id="id || name" :name="name" :placeholder="placeholder" v-model="inputVal"
+            :autofocus="autofocus" ref="input" />
         <p v-if="hasError" class="text-rose-700 text-sm mt-1">
             {{ errorMessage }}
         </p>
@@ -91,6 +82,9 @@ export default {
         },
     },
     watch: {
+        modelValue(newVal) {
+            if (this.inputVal !== newVal) this.inputVal = newVal;
+        },
         inputVal(newVal, oldVal) {
             if (this.hasError) delete this.wrongFields[this.name];
 
